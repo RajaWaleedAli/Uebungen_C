@@ -46,7 +46,7 @@ int main(){
         printf("\n");
     }
 
-    while(win==0||life>0){
+    while(win==0){
         fflush(stdin);
         p1=getch();
         system("cls");
@@ -83,27 +83,31 @@ int main(){
         }else if(feld[y][x]=='Z'){          //kontrolliert feld auf ein Z
             life--;
             z=1;
+            if(life==0){
+                printf("!Game Over!\n Points: %d\n!Game Over!", points);
+                return 0;
+            }
         }
 
         if (p1=='d'){                       //Setzt Spieler auf Richtigem Feld
             feld[y][x]='P';
-            if(z==0){                       //schaut ob leben abgezogen wird
+            if(feld[y+1][x]!='Z'){                       //schaut ob leben abgezogen wird
                 feld[y+1][x]='-';
             }
         }else if(p1=='a'){
             feld[y][x]='P';
-            if(z==0){
-                feld[y+1][x]='-';
+            if(feld[y-1][x]!='Z'){
+                feld[y-1][x]='-';
             }
         }else if(p1=='w'){
             feld[y][x]='P';
-            if(z==0){
-                feld[y+1][x]='-';
+            if(feld[y][x-1]!='Z'){
+                feld[y][x-1]='-';
             }
         }else if(p1='s'){
             feld[y][x]='P';
-            if(z==0){
-                feld[y+1][x]='-';
+            if(feld[y][x+1]!='Z'){
+                feld[y][x+1]='-';
             }
         }
         printf("\n");                                           //Gibt Das Spielfeld aus
@@ -117,13 +121,12 @@ int main(){
 
         if(z==1){
             feld[y][x]='Z';
+            z=0;
         }
 
     }
     if(win==1){
         printf("\nGewonnen!");
-    } else {
-        printf("!Game Over!\n Points: %d\n!Game Over!", points);
     }
     return 0;
 }
