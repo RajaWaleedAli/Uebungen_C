@@ -10,8 +10,36 @@ Beschreibung: Game of life.
 #include<stdlib.h>
 #include<math.h>
 
-int nachbar(zeilen, spalten, char mensch[zeilen]){
-    if()
+int nachbar(zeilen, spalten, char mensch[zeilen][spalten], int posX, int posY){
+    int neighbor = 0;
+    if(mensch[posY][posX]=='X'){
+        if(mensch[(posY+1+zeilen)%zeilen][posX]=='X'){
+            neighbor++;
+        }
+        if(mensch[(posY-1+zeilen)%zeilen][posX]=='X'){
+            neighbor++;
+        }
+        if(mensch[posY][(posX+1+spalten)%spalten]=='X'){
+            neighbor++;
+        }
+        if(mensch[posY][(posX-1+spalten)%spalten]=='X'){
+            neighbor++;
+        }
+        if(mensch[(posY+1+zeilen)%zeilen][(posX+1+spalten)%spalten]=='X'){
+            neighbor++;
+        }
+        if(mensch[(posY-1+zeilen)%zeilen][(posX-1+spalten)%spalten]=='X'){
+            neighbor++;
+        }
+        if(mensch[(posY-1+zeilen)%zeilen][(posX+1+spalten)%spalten]=='X'){
+            neighbor++;
+        }
+        if(mensch[(posY+1+zeilen)%zeilen][(posX-1+spalten)%spalten]=='X'){
+            neighbor++;
+        }
+
+        return neighbor;
+    }
 }
 
 void spielfeld(int zeilen, int spalten, char mensch[zeilen][spalten]){
@@ -31,6 +59,11 @@ void spielfeld(int zeilen, int spalten, char mensch[zeilen][spalten]){
                 printf("%c ", feld[i][j]);
             }
         printf("\n");
+        } 
+        for(i=0;i<zeilen; i++){
+            for(j=0; j<spalten; j++){
+                nachbar(zeilen, spalten, mensch, j, i);
+            }
         } 
 }
 
