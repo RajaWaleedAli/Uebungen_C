@@ -2,6 +2,7 @@
 Autor: Raja Waleed Ali
 Datum: 7.12.23
 Beschreibung: Game of life.
+Fehler: Funktioniert hoffentlich richtig!
 */
 
 #include<stdio.h>
