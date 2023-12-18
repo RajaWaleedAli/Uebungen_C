@@ -41,37 +41,22 @@ int nachbar(int zeilen, int  spalten, char mensch[zeilen][spalten], int posX, in
     return neighbor;
 }
 
-void spielfeld(int zeilen, int spalten, char mensch[zeilen][spalten], char feld[zeilen][spalten]){
-    int i, j;
-    //char feld[zeilen][spalten];
+int spielfeld(int zeilen, int spalten, char mensch[zeilen][spalten], char feld[zeilen][spalten], int i, int j){
     int neighbor;
-    system("cls");
         
-        for(i=0;i<zeilen; i++){
-            for(j=0; j<spalten; j++){
-                printf("%c ", feld[i][j]);
-            }
-        printf("\n");
-        } 
-        for(i=0;i<zeilen; i++){
-            for(j=0; j<spalten; j++){
-                neighbor=nachbar(zeilen, spalten, mensch, j, i);
-                if(neighbor==3){
-                    feld[i][j]='X';
-                }else if(neighbor<3){
-                    feld[i][j]='-';
-                }
-                else if(neighbor>3){
-                    feld[i][j]='-';
-                }
-                printf("%d", neighbor);                
-            }
-        } 
+    printf("%c ", feld[i][j]);
+
+    neighbor=nachbar(zeilen, spalten, mensch, j, i);
+    if(neighbor==3){
+        return 1;
+    }else{
+        return 0;
+    }              
 }
 
 int main(){
     srand(time(NULL));
-    int i, j, k, life, zeilen, spalten, count;
+    int i, j, k, zeilen, spalten, count;
     char input;
     printf("Gib die Zeilenanzahl an! ");
     scanf("%d", &zeilen);
@@ -92,7 +77,6 @@ int main(){
         }
         
     }
-
     for(i=0;i<zeilen; i++){
         for(j=0; j<spalten; j++){
             feld[i][j]='-';
@@ -101,17 +85,42 @@ int main(){
             }
         }
     }
-
-    spielfeld(spalten, zeilen, mensch, feld);
+    for(i=0;i<zeilen; i++){
+        for(j=0; j<spalten; j++){
+            spielfeld(spalten, zeilen, mensch, feld, i, j);
+        }
+        printf("\n");
+    }
     int loop = 1;
-    while(loop=1){
+    int output;
+    while(loop==1){
         input=getch();
         if(input=='x'){
+            system("cls");
             return 0;
         }else{
-            spielfeld(spalten, zeilen, mensch, feld);
+            system("cls");
+            for(i=0;i<zeilen; i++){
+                for(j=0; j<spalten; j++){
+                    output=spielfeld(spalten, zeilen, mensch, feld, i, j);
+                    if(output==1){
+                        feld[i][j]='X';
+                    }else if(output==0){
+                        feld[i][j]='-';
+                    }else{
+                        printf("ERROR!");
+                        return 0;
+                    }
+                }
+                printf("\n");
+            }
+
+            for(i=0;i<zeilen; i++){
+                for(j=0; j<spalten; j++){
+                    mensch[i][j]=feld[i][j];
+                }
+            }   
         }
     }
-
     return 0;
 }
