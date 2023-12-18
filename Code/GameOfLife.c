@@ -13,6 +13,9 @@ Beschreibung: Game of life.
 int nachbar(int zeilen, int  spalten, char mensch[zeilen][spalten], int posX, int posY){
     int neighbor = 0;
 
+    if(mensch[posY][posX]=='X'){
+        neighbor++;
+    }
     if(mensch[(posY+1+zeilen)%zeilen][posX]=='X'){
         neighbor++;
     }
