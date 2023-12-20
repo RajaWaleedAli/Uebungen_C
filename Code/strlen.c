@@ -17,8 +17,7 @@ int strlen(char string[]){
 
 int main(){
     char string[]="Hallo";
-    int zaeler=0;
-    strlen(string);
+    printf("Laenge: %d", strlen(string));
 
     return 0;
 }
