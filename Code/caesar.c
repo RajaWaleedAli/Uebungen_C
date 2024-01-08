@@ -46,13 +46,12 @@ int main(){
             printf("%c", (char)buchstabe);
         }
     }else  if(mode==1){
-        for(shift=0; shift<26;shift++){
-            shift=shift%26;
+        for(shift=0; shift<26; shift++){
             for(i=0; i<strlen(string); i++){
                 buchstabe=alph(string, i, shift);
                 printf("%c", (char)buchstabe);
             }
-            printf(" i=%d\n", shift);    
+            printf("\n");
         }
         
     }else{
