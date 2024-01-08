@@ -43,7 +43,7 @@ int main(){
     printf("Alles in Grossbuchstaben(0)\nAlles in Kleinbuchstaben(1)\nAlles klein und Anfangsbuchstaben gross(2)\n");
     scanf("%d", &mode);
     if(mode==0){
-        for(i=0;i<strlen(string);  i++){
+        for(i=0; i<strlen(string); i++){
             buchstabe=big(i, string);
             printf("%c", (char)buchstabe);
         }
@@ -53,7 +53,7 @@ int main(){
             printf("%c", (char)buchstabe);
         }
     }else  if(mode==2){
-        for(i=0; i<strlen(string);  i++){
+        for(i=0; i<strlen(string); i++){
             buchstabe=anfang2(i, string);
             printf("%c", (char)buchstabe);
         }

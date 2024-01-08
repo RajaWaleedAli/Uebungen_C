@@ -41,18 +41,20 @@ int main(){
         printf("Um wieviele Buchstaben soll es verschoben werden?\n");
         scanf("%d", &shift);
         shift=shift%26;
-        for(i=0;i<strlen(string);  i++){
+        for(i=0; i<strlen(string); i++){
             buchstabe=caesar(string, i, shift);
             printf("%c", (char)buchstabe);
         }
     }else  if(mode==1){
-        printf("Um wieviele Buchstaben wurde es verschoben?\n");
-        scanf("%d", &shift);
-        shift=shift%26;
-        for(i=0;i<strlen(string);  i++){
-            buchstabe=alph(string, i, shift);
-            printf("%c", (char)buchstabe);
+        for(shift=0; shift<26;shift++){
+            shift=shift%26;
+            for(i=0; i<strlen(string); i++){
+                buchstabe=alph(string, i, shift);
+                printf("%c", (char)buchstabe);
+            }
+            printf(" i=%d\n", shift);    
         }
+        
     }else{
         printf("Falsche eingabe!");
     }
