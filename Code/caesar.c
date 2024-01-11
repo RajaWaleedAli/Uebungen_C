@@ -18,15 +18,13 @@ int small(int i, char string[100]){
 
 int caesar(char string[100], int i, int shift){
     string[i]=small(i, string)-97;
-    string[i]=((string[i]+shift)%26)+97;
+    string[i]=((string[i]-97+shift+26)%26)+97;
 
     return (int)string[i];
 }
 
 int alph(char string[100], int i, int shift){
-    string[i]=((string[i]-97-shift+26)%26)+97;
-
-    return (int)string[i];    
+    return caesar(string, i, -shift);  
 }
 
 int main(){
@@ -46,7 +44,7 @@ int main(){
             printf("%c", (char)buchstabe);
         }
     }else  if(mode==1){
-        for(shift=0; shift<26; shift++){
+        for(shift=1; shift<26; shift++){
             for(i=0; i<strlen(string); i++){
                 buchstabe=alph(string, i, shift);
                 printf("%c", (char)buchstabe);

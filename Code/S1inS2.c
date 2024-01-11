@@ -11,10 +11,10 @@ Beschreibung: string vergleich.
 int same(char s1[], char s2[]){
     int i, j, k, gleich;
     int count=0;
-    for(i=0; i<strlen(s1); i++){
+    for(i=0; i<(int)strlen(s1); i++){
         if(s1[i]==s2[0]){
             k=i;
-            for(j=0;j<strlen(s2);j++){
+            for(j=0;j<(int)strlen(s2);j++){
                 if(s1[k]==s2[j]){
                     gleich=1;
                 }else{
@@ -33,10 +33,10 @@ int same(char s1[], char s2[]){
 
 int anfang(char s1[], char s2[]){
     int i, j, k, gleich;
-    for(i=0; i<strlen(s1); i++){
+    for(i=0; i<(int)strlen(s1); i++){
         if(s1[i]==s2[0]){
             k=i;
-            for(j=0;j<strlen(s2);j++){
+            for(j=0;j<(int)strlen(s2);j++){
                 if(s1[k]==s2[j]){
                     gleich=1;
                 }else{
@@ -46,35 +46,44 @@ int anfang(char s1[], char s2[]){
                 k++;
             }
             if(gleich==1){
-                return i;
+                return i+1;
             }
         }
     }
     return 255;
 }
-int main(){
-    int i, j, k, gleich;
-    char s1[]="Kukuk Hallo Hallo Hallo Hallo Hallo";
-    char s2[]="Hallo";
 
-    for(i=0; i<strlen(s1); i++){
+int compare(char s1[], char s2[]){
+    int i, j, k, gleich;
+    for(i=0; i<(int)strlen(s1); i++){
         if(s1[i]==s2[0]){
             k=i;
-            for(j=0;j<strlen(s2);j++){
+            for(j=0;j<(int)strlen(s2);j++){
                 if(s1[k]==s2[j]){
                     gleich=1;
                 }else{
                     gleich=0;
-                    break;
+                    return 0;
                 }
                 k++;
             }
             if(gleich==1){
-                printf("S2 ist in S1 enthalten!\n");
-                break;
+                return 1;
             }
         }
     }
+    return 0;
+}
+int main(){
+    char s1[]="Kukuk fisch\nHHHHHHHHHHHH";
+    char s2[]="H";
+
+    if(compare(s1,s2) == 1){
+        printf("s2 ist in s1 enthalten!\n");
+    }else{
+        printf("s2 ist nicht in s1 enthalten!\n");
+    }
+    
     printf("Anfangsbuchstabe an Stelle: %d\nAnzahl der gleichen Woerter: %d", anfang(s1, s2), same(s1, s2));
 
     return 0;
