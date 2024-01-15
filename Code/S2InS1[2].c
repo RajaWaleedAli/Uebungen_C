@@ -11,12 +11,12 @@ Beschreibung: string vergleich mit string.h funktionen.
 int amount(char s1[], char s2[]){
     int count =0;
     char *ptr;
-    ptr = strtok(s1, "\n\t ");
+    ptr = strtok(s1, s2);
     while(ptr != NULL) {
         if(strstr(ptr, s2) != NULL){
             count++;
         }
-        ptr = strtok(NULL, "\n\t ");
+        ptr = strtok(ptr+1, s2);
     }
     return count;
 }
