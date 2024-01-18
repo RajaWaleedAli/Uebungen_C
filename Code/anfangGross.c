@@ -7,7 +7,7 @@ Beschreibung: ersten buchstaben in einem dokument als grossbuchstaben.
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-int fputc(int c, FILE *fp);
+
 int main(int argc, char* argv[]){
     system("cls");
     int  temp, temp2;
@@ -23,9 +23,7 @@ int main(int argc, char* argv[]){
         while((temp = fgetc(fp))!=EOF){
             if(temp2==' '||temp2=='.'||temp2==','||temp2==10){
                 if(temp>='a'&&temp<='z'){
-                    printf("1. %c\n", temp);
                     temp=temp-'a'+'A';
-                    printf("2. %c\n\n", temp);
                 }
             }
             fputc(temp, fp2);

@@ -8,14 +8,14 @@ Beschreibung: zählt buchstaben in einem dokument.
 #include<stdlib.h>
 #include<string.h>
 
-int main(){
+int main(int argc, char* argv[]){
     system("cls");
     int i, temp;
     long long zeichen=0;;
     int alph[27]={0};
     int alph2[27]={0};
     FILE *fp;
-    fp = fopen("alice.txt", "r");
+    fp = fopen(argv[1], "r");
 
     if(fp == NULL) {
         printf("Datei konnte NICHT geoeffnet werden.\n");
