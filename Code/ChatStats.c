@@ -9,7 +9,7 @@ Zu Beachten: Funktioniert nur wenn der kontankt Eingespeichert ist und wenn es m
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include <stdbool.h>
+#include<stdbool.h>
 
 int namen(int temp, int temp2){
     if(temp2==']'&&temp!=':'){
