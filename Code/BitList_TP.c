@@ -9,39 +9,43 @@ Beschreibung: erstellt eine Bitlist.
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
-
-int printAsk(int, int);                 //auflistung der Funktionen, welche verwendet werden
+//auflistung der Funktionen, welche verwendet werden
+int printAsk(int, int);                 
 int printAsk2(int);
 void printArr(char *);
 void clear(char *, int);
-int paste(char *, int, int, int);
-
+int paste(char *, int, int, int);       
+//ende der Auflistung
 int main(){
-    system("cls");                      //loescht Inhalt vom Terminal (nur Windows)
-    char bitList[100]={0};
+    system("cls");                      //Loescht Inhalt vom Terminal (nur Windows)
+    char bitList[101];
     int mode, mode2, j, k, load, platzhalter;
     int  i=0;
     bool control;
+    bool control2;
+    bool again;
     int save=0;
-    int repeat[100];
+    int saveArr[100];
+    int load2;
     mode2=0;
 
-    for(j=0;j<100;j++){                 //initialisiert den Array
+    for(j=0;j<101;j++){                 //initialisiert den Array
         bitList[j]='-';
     }
 
     do{
-        printf("waehle zwischen:\nFirst Fit(1)\nNext Fit(2)\nBest Fit(3)\nQuick Fit(4)\n");      //Algorithmus auswaelen
+        printf("waehle zwischen:\nFirst Fit(1)\nNext Fit(2)\nBest Fit(3)\n");      //Algorithmus auswaelen
         scanf("%d", &mode);    
-    }while(mode<1||mode>4);
+    }while(mode<1||mode>3);
 
     while(1){                           //unendliche Schleife
         mode2=printAsk2(mode2);
-        if(mode2==3){
+        if(mode2==3){                   //beendet Programm
             return 0;
         }
         load=printAsk(i, mode2);
         i++;
+        //First Fit
         if(mode==1){
             if(mode2==1){
                 clear(bitList, load);
@@ -57,6 +61,8 @@ int main(){
                     printf("nicht genug Speicher frei!\n");
                 }
             }
+        //Ende First Fit
+        //Anfang Next Fit    
         }else if(mode==2){
             if(mode2==1){
                 clear(bitList, load);
@@ -80,56 +86,74 @@ int main(){
                     i--;
                 }
             }
+        //Ende Next Fit
+        //Anfang Best Fit 
         }else if(mode==3){
             if(mode2==1){
                 clear(bitList, load);
-                i--;
             }else{
                 control=false;
+                control2=false;
+                again=false;
                 for(j=0;j<100;j++){
-                    repeat[j]=100;
+                    saveArr[j]=101;
                 }
-                repeat[0]=99;
                 for(j=0; j<100; j++){
                     if(bitList[j]=='-'){
                         for(k=load;k>=0;k--){
                             if(bitList[j+k]=='-'){
                                 control=true;
+                            }else if(load==1 && bitList[j]=='-'){
+                                control=true;
                             }else{
                                 control=false;
+                                again=false;
                                 break;
                             }
                         }
                     }
                     if(control==true){
-                        repeat[j]=0;
-                        for(k=j;bitList[j]!='-';j++){
-                            repeat[k]++;
+                        if (again==true){
+                            saveArr[j]=saveArr[j-1]+1;
+                        }else{
+                            saveArr[j]=0;
+                            for(k=j;bitList[k]=='-';k++){
+                                saveArr[j]++;
+                            }
+                            control2=true;
+                            again=true;
                         }
+                        
                     }
                 }
-                platzhalter=100;
-                for(j=0;j<100;j++){
-                    if(repeat[j]>=0){
-                        if(repeat[j]<platzhalter){
+                load2=saveArr[0];
+                for(j=1;j<100;j++){
+                    if(saveArr[j]>=0){
+                        if(saveArr[j]<load2){
                             platzhalter=j;
+                            load2=saveArr[j];
                         }
                     }
                 }
-                while(load>=0){
-                    bitList[platzhalter+load]='A'+i-1;
+                while(load>0 && control2==true){
+                    bitList[platzhalter]='A'+i-1;
+                    platzhalter++;
                     load--;
                 }
+                if(control2==false){
+                    i--;
+                }
             }
-            if(load!=-1){
+            if(load!=0){
                 printf("nicht genug Speicher frei!\n");
                 i--;
             }
         }
+        //Ende Best Fit
         printArr(bitList);
     }
 
-    return 1;   //fehler
+    return 1;   //Fehler
 }
 
 int printAsk(int i, int mode){
@@ -152,13 +176,14 @@ int printAsk2(int mode2){
     }while(mode2<1||mode2>3);
     return mode2;
 }
+//Gibt die Bitliste aus
 void printArr(char bitList[]){
     int j;
     for(j=0;j<100;j++){
         printf("%c", bitList[j]);
     }
 }
-
+//Löscht den Speicherplatz, der zuvor von einem bestimmten Prozess belegt wurde
 void clear(char bitList[], int load){
     int j;
     for(j=0;j<100;j++){
@@ -167,7 +192,7 @@ void clear(char bitList[], int load){
         }
     }
 }
-
+//Füllt den Speicherplatz mit einem neuen Prozess
 int paste(char bitList[], int j, int load, int i){
     int k;
     bool control=false;
