@@ -19,14 +19,13 @@ int paste(char *, int, int, int);
 int main(){
     system("cls");                      //Loescht Inhalt vom Terminal (nur Windows)
     char bitList[101];
-    int mode, mode2, j, k, load, platzhalter;
+    int mode, mode2, j, k, load, load2, platzhalter;
     int  i=0;
     bool control;
     bool control2;
     bool again;
     int save=0;
     int saveArr[100];
-    int load2;
     mode2=0;
 
     for(j=0;j<101;j++){                 //initialisiert den Array
@@ -100,10 +99,8 @@ int main(){
                 }
                 for(j=0; j<100; j++){
                     if(bitList[j]=='-'){
-                        for(k=load;k>=0;k--){
+                        for(k=load-1;k>=0;k--){
                             if(bitList[j+k]=='-'){
-                                control=true;
-                            }else if(load==1 && bitList[j]=='-'){
                                 control=true;
                             }else{
                                 control=false;
