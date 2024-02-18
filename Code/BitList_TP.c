@@ -5,7 +5,6 @@ Datum: 13.02.2024
 Fach: TP
 Beschreibung: erstellt eine Bitlist.
 */
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
@@ -19,24 +18,23 @@ int paste(char *, int, int, int);
 int main(){
     system("cls");                      //Loescht Inhalt vom Terminal (nur Windows)
     char bitList[101];
-    int mode, mode2, j, k, load, load2, platzhalter;
+    int mode, mode2, j, k, load, platzhalter;
     int  i=0;
     bool control;
     bool control2;
     bool again;
     int save=0;
     int saveArr[100];
+    int load2;
     mode2=0;
 
     for(j=0;j<101;j++){                 //initialisiert den Array
         bitList[j]='-';
     }
-
     do{
         printf("waehle zwischen:\nFirst Fit(1)\nNext Fit(2)\nBest Fit(3)\n");      //Algorithmus auswaelen
         scanf("%d", &mode);    
     }while(mode<1||mode>3);
-
     while(1){                           //unendliche Schleife
         mode2=printAsk2(mode2);
         if(mode2==3){                   //beendet Programm
@@ -125,7 +123,7 @@ int main(){
                 }
                 load2=saveArr[0];
                 for(j=1;j<100;j++){
-                    if(saveArr[j]>=0){
+                    if(saveArr[j]<101){
                         if(saveArr[j]<load2){
                             platzhalter=j;
                             load2=saveArr[j];
@@ -149,10 +147,8 @@ int main(){
         //Ende Best Fit
         printArr(bitList);
     }
-
     return 1;   //Fehler
 }
-
 int printAsk(int i, int mode){
     int load;
     if(mode==2){
@@ -165,7 +161,6 @@ int printAsk(int i, int mode){
         return load-1;
     }
 }
-
 int printAsk2(int mode2){
     do{
         printf("\nmoechtest du speicher freigeben (1) oder etwas speichern(2)?\nAlles Beenden(3)\n");
