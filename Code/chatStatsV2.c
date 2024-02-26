@@ -24,7 +24,7 @@ int main(int argc, char* argv[]){
     bool leertaste = false; 
     i=0;
     FILE *fp;
-    fp = fopen("_chat.txt", "r");
+    fp = fopen(argv[1], "r");
     scanf("%c", &load);
     if(fp == NULL) {
         printf("Datei konnte NICHT geoeffnet werden.\n");
@@ -33,32 +33,42 @@ int main(int argc, char* argv[]){
     int j=0;
     //Namen im Array speichern Anfang
     while(fgets(temp3, 30000, fp)!=NULL){
-        printf("+%s+\n", strchr(temp3, (int)']'));
-        printf("#%s#\n", strtok(strchr(temp3, (int)']'), ":"));
-        fflush(stdout);
-        getchar();
         ptr = strtok(strchr(temp3, (int)']'), ":");
-        while(first==false){
-            name[j]=ptr;
-            j++;
+
+        if(name3[0]==NULL){
+                printf("test1\n");
+            first=true;
+                printf("test2\n");
+        }else{
+            printf("test3");
+            for(i=0; name3[i]!=NULL; i++){
+                if(strstr(name3[i], ptr)==NULL){
+                    first=true;
+                }else{
+                    first=false;
+                    break;
+                }
+            }
+            printf("test4\n");
         }
-        if(strstr(name3, ptr)==NULL){
-            strcpy(name3[j], ptr);
+        if(first==true){
+            name3[j] = ptr;
             j++;
         }
         for(i=0; name3[i]!=NULL; i++){
             printf("%d: %s\n", i, name3[i]);
         }
     }
-    int stats[100]={0};
     fclose(fp);
     //Namen im Array Speichern Ende
 
-    fp = fopen("_chat.txt", "r");
+    int stats[100]={0};
+
+    fp = fopen(argv[1], "r");
 
     char* platzhalter;
     int platzhalter2;
-    if(load=='d'){
+    if(argv[2]=="-d"){
         //printf("\ntest1\n");
         while(fgets(temp3, 30000, fp)!=NULL){
             platzhalter=strstr(temp3, ": ");
