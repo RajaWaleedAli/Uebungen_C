@@ -41,7 +41,7 @@ int cmp_adressen(struct daten a1, struct daten a2) {
 
 int main(){
 
-    struct daten a1={"Datenstrasse", 39, 39042, "Brixen"};
+    struct daten a1={39042, "Brixen", "Datenstrasse", 39};
     struct daten a2=a1;
     a1.hausNummer=40;
     printDaten(a1);
