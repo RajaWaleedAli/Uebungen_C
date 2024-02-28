@@ -8,3 +8,18 @@ Beschreibung: Autos struct
 #include<stdlib.h>
 #include<string.h>
 #include<stdbool.h>
+
+struct car{
+    char* marke;
+    int vMax;
+    int door;
+    bool ABS;
+
+};
+
+
+int main(int argv, char* argv[]){
+    
+
+    return 0;
+}
