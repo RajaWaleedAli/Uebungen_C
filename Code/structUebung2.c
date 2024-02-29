@@ -16,7 +16,7 @@ struct time{
 };
 
 void printDaten(struct time fill){
-    printf("\nStunden: %d\n", fill.hour);
+    printf("Stunden: %d\n", fill.hour);
     printf("Minuten: %d\n", fill.min);
     printf("Sekunden: %d\n", fill.sec);
 }
@@ -40,26 +40,62 @@ int cmp(struct time a1, struct time a2) {
     return 0;
 }
 
+void fill(struct time arr[], int place, int h, int m, int s){
+    arr[place].hour=h;
+    arr[place].min=m;
+    arr[place].sec=s;
+}
+
+void dif(struct time arr[], int time1[], int time2[]){
+    if(cmp(arr[0], arr[1])==-1){
+        dif2(arr, time1, time2);
+    }else if(cmp(arr[0], arr[1])==1){
+        dif2(arr, time2, time1);
+    }else{
+        time1[0]=0;
+        time1[1]=0;
+        time1[2]=0;
+        fill(arr, 2, time1[0], time1[1], time1[2]);
+    }
+}
+void dif2(struct time arr[], int time1[], int time2[]){
+    time1[0]=time2[0]-time1[0];
+    time1[1]=time2[1]-time1[1];
+    time1[2]=time2[2]-time1[2];
+    if(time1[2]<0){
+        time1[1]-=1;
+        time1[2]+=60;
+    }
+    if(time1[1]<0){
+        time1[0]-=1;
+        time1[1]+=60;
+    }
+    if(time1[0]<0){
+        time1[0]+=24;
+        time1[1]=(60-time1[1])%60;
+        time1[2]=(60-time1[2])%60;
+    }
+    fill(arr, 2, time1[0], time1[1], time1[2]);
+}
+
 int main(){
-    int m, s, h;
     typedef struct time zeit;
-    zeit arr[2];
+    zeit arr[3];
+    int time1[]={14, 10, 20};      //h, min, sec
+    int time2[]={13, 20, 20};      //h, min, sec
 
-    printf("Gib die Uhrzeit an!\n");
-    scanf("%d %d %d", &h, &m, &s);
-    arr[0].hour=h;
-    arr[0].min=m;
-    arr[0].sec=s;
-    printf("Gib die Uhrzeit an!\n");
-    scanf("%d %d %d", &h, &m, &s);
-    arr[1].hour=h;
-    arr[1].min=m;
-    arr[1].sec=s;
-
+    fill(arr, 0, time1[0], time1[1], time1[2]);
+    fill(arr, 1, time2[0], time2[1], time2[2]);
+    printf("1. Zeit:\n");
     printDaten(arr[0]);
+    printf("2. Zeit:\n");
     printDaten(arr[1]);
 
-    printf("\n%d", cmp(arr[0], arr[1]));
+    dif(arr, time1, time2);
+
+    printf("Controlle: %d\n", cmp(arr[0], arr[1]));
+    printf("Differenz:\n");
+    printDaten(arr[2]);
 
     return 0;
 }
