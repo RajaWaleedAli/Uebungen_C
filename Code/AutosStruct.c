@@ -1,7 +1,9 @@
 /*
 Autor: Raja Waleed Ali
 Datum: 28.02.24
-Beschreibung: Autos struct
+Beschreibung: Autos Preis rechner
+Beispiel Kommandozeilenparameter:
+    VW 150 5 Ja Porsche 230 3 Ja Lamborghini 320 3 Nein
 */
 
 #include<stdio.h>
@@ -26,41 +28,67 @@ void fill(car_t arr[], char* daten[]){
         for(j=0; j<4;j++){
             switch(j){
                 case 0:
-                    arr[i].marke=argv[j+2+i*4];
+                    arr[i].marke=daten[(j+1)+i*4];
                     break;
                 case 1:
-                    arr[i].vMax=atoi(argv[j+2+i*4]);
+                    arr[i].vMax=atoi(daten[(j+1)+i*4]);
                     break;
                 case 2:
-                    arr[i].door=atoi(argv[j+2+i*4]);
+                    arr[i].door=atoi(daten[(j+1)+i*4]);
                     break;
                 case 3:
-                    if(argv[j+2+i*4]=="Ja"){
-                        arr[i].ABS=TRUE;
+                    if(strcmp(daten[(j+1)+i*4], "Ja")==0){
+                        arr[i].ABS=true;
                     }else{
-                        arr[i].ABS=FALSE;
+                        arr[i].ABS=false;
                     }
                     break;
             }
         }
+        
         i++;
     }
 }
 
-int price(car_t arr[]){
+void preis(car_t arr[]){
     int i;
     for(i=0; i<3; i++){
-        arr[i].price=arr[i].vMax*50*arr[i].door;
-        if(arr[t].ABS==TRUE){
+        arr[i].price= arr[i].vMax*50*arr[i].door;
+        if(arr[i].ABS==true){
             arr[i].price+=5000;
+        }
+        if(strcmp(arr[i].marke, "Porsche")==0){
+            arr[i].price=arr[i].price*2;
+        }else if(strcmp(arr[i].marke, "Lamborghini")==0){
+            arr[i].price=arr[i].price*20;
         }
     }
 }
 
-int main(int argv, char* argv[]){
-    car_t arr[3];
+void printDaten(car_t fill[]){
+    int i;
+    for(i=0;i<3;i++){
+        printf("Marke: %s\n", fill[i].marke);
+        printf("Anzahl Tueren: %d\n", fill[i].door);
+        printf("MAX Geschwindigkeit: %d\n", fill[i].vMax);
+        if(fill[i].ABS==true){
+            printf("ABS: Ja\n");
+        }else{
+            printf("ABS: Nein\n");
+        }
+        printf("Preis: %d\n", fill[i].price);
+    }
     
+}
 
-
+int main(int argc, char* argv[]){
+    if(argc<13){
+        printf("Nicht genug Parameter!");
+        return 1;
+    }
+    car_t arr[3];
+    fill(arr, argv);
+    preis(arr);
+    printDaten(arr);
     return 0;
 }
