@@ -31,13 +31,24 @@ void printDaten(person_t fill[], int count){
     
 }
 
+short semikolon(char line[]){
+    char *ptr = line;
+	short count = 0;
+	while((ptr = strstr(ptr, ";")) != NULL){
+		ptr++;
+		count++;
+	}
+	return count;
+}
+
 int main(){
     system("cls");
     FILE* fp;
     char temp[60];
     int count=0;
     char* ptr;
-    int i;
+    int i, j;
+    short load;
     fp=fopen("celebrity.txt", "r");
     	if(fp==NULL){
 		printf("Datei Existiert nicht");
@@ -52,18 +63,25 @@ int main(){
     fp=fopen("celebrity.txt", "r");
     i=0;
     while((fgets(temp, sizeof(temp), fp))!=NULL){
+        load=semikolon(temp);
         ptr=strtok(temp, ";");
         strncpy(personen[i].vorname, ptr, sizeof(personen[i].vorname) - 1);
-        ptr = strtok(ptr, " ");
-        strncpy(personen[i].nachname, ptr, sizeof(personen[i].nachname) - 1);
-        /*while(ptr != NULL) {
-            
-        }*/
-
+        for(j=load-1;j>0;j--){
+            char* vorname_ptr = strtok(NULL, ";");
+            if(vorname_ptr != NULL){
+                strcat(personen[i].vorname, " ");
+                strcat(personen[i].vorname, vorname_ptr);
+            }
+        }
+        if(load!=0){
+            char* nachname_ptr = strtok(NULL, " ");
+            if(nachname_ptr != NULL){
+                strncpy(personen[i].nachname, nachname_ptr, sizeof(personen[i].nachname) - 1);
+            }
+        }
         i++;
     }
-    printDaten(personen, count);
-    printf("6");
+        printDaten(personen, count);
     
     fclose(fp);
     return 0;

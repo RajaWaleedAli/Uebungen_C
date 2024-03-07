@@ -57,9 +57,9 @@ void preis(car_t arr[]){
         if(arr[i].ABS==true){
             arr[i].price+=5000;
         }
-        if(strcmp(arr[i].marke, "Porsche")==0){
+        if(strcmp(arr[i].marke, "porsche")==0){
             arr[i].price=arr[i].price*2;
-        }else if(strcmp(arr[i].marke, "Lamborghini")==0){
+        }else if(strcmp(arr[i].marke, "lamborghini")==0){
             arr[i].price=arr[i].price*20;
         }
     }
@@ -81,10 +81,11 @@ void printDaten(car_t fill[]){
     
 }
 
+
 int main(int argc, char* argv[]){
     if(argc<13){
         printf("Nicht genug Parameter!");
-        return 1;
+        return -1;
     }
     car_t arr[3];
     fill(arr, argv);
