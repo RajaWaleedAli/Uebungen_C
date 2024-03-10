@@ -1,7 +1,6 @@
 /*
 Autor: Raja Waleed Ali
 Klasse: 3BT
-Datum: 13.02.2024
 Fach: TP
 Beschreibung: erstellt eine Bitlist.
 */
@@ -11,6 +10,7 @@ Beschreibung: erstellt eine Bitlist.
 //auflistung der Funktionen, welche verwendet werden
 int printAsk(int, int);                 
 int printAsk2(int);
+int printErr(int, int);
 void printArr(char *);
 void clear(char *, int);
 int paste(char *, int, int, int);       
@@ -23,6 +23,7 @@ int main(){
     bool control;
     bool control2;
     bool again;
+    int load2;
     int save=0;
     int saveArr[100];
     int load2;
@@ -54,9 +55,7 @@ int main(){
                         load = paste(bitList, j, load, i);
                     }
                 }
-                if(load!=-1){
-                    printf("nicht genug Speicher frei!\n");
-                }
+                i=printErr(load, i);
             }
         //Ende First Fit
         //Anfang Next Fit    
@@ -78,10 +77,7 @@ int main(){
                 if(j>=100){
                     save=0;
                 }
-                if(load!=-1){
-                    printf("nicht genug Speicher frei!\n");
-                    i--;
-                }
+                i=printErr(load, i);
             }
         //Ende Next Fit
         //Anfang Best Fit 
@@ -92,6 +88,7 @@ int main(){
                 control=false;
                 control2=false;
                 again=false;
+                platzhalter=0;
                 for(j=0;j<100;j++){
                     saveArr[j]=101;
                 }
@@ -139,10 +136,7 @@ int main(){
                     i--;
                 }
             }
-            if(load!=0){
-                printf("nicht genug Speicher frei!\n");
-                i--;
-            }
+            i=printErr(load-1, i);
         }
         //Ende Best Fit
         printArr(bitList);
@@ -167,6 +161,13 @@ int printAsk2(int mode2){
         scanf("%d", &mode2);
     }while(mode2<1||mode2>3);
     return mode2;
+}
+int printErr(int load, int i){
+    if(load!=-1){
+        printf("nicht genug Speicher frei!\n");
+        i--;
+    }
+    return i;
 }
 //Gibt die Bitliste aus
 void printArr(char bitList[]){
