@@ -11,7 +11,7 @@ int main(){
     int numbers[]={1,4,2,23,5,56,95,24,7,3};
     int rand1, rand2, load, i, j;
     bool right=false;
-    while(right=false){
+    while(right==false){
         rand1=rand()%10;
         rand2=rand()%10;
         load=numbers[rand1];
@@ -22,7 +22,7 @@ int main(){
                 if(numbers[i]<=numbers[j]){
                     right=true;
                 }else{
-                    right=false
+                    right=false;
                     i=10;
                     break;
                 }
