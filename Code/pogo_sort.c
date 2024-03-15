@@ -1,4 +1,8 @@
-//pogo sort
+/*
+Autor: Raja Waleed Ali
+Datum: 013.03.2024
+Beschreibung: Monkey Sort
+*/
 
 #include<stdio.h>
 #include<time.h>
