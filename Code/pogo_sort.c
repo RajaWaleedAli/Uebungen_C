@@ -12,7 +12,12 @@ Beschreibung: Monkey Sort
 
 int main(){
     srand(time(NULL));
-    int numbers[]={1,4,2,23,5,56,95,24,7,3};
+    int size=10;
+    int i;
+    int numbers[size];
+    for(i=size;i!=0;i++){
+        numbers[i]=rand();
+    }
     int rand1, rand2, load, i, j;
     bool right=false;
     while(right==false){
@@ -33,9 +38,9 @@ int main(){
             }
         }
     }
-    for(i=0;i<10;i++){
+    /*for(i=0;i<10;i++){
         printf("%d ", numbers[i]);
     }
-
+    */
     return 0;
 }

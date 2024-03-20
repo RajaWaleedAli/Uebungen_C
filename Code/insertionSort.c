@@ -31,8 +31,14 @@ void sort(int arr[]){
 }
 
 int main(){
-    int arr[]={6, 23 ,2, 7, 3, 8, 9, 11, 10, 45};
-    sort(arr);
-    printArr(arr, 10);
+    srand(time(NULL));
+    int size=10;
+    int i;
+    int numbers[size];
+    for(i=size;i!=0;i++){
+        numbers[i]=rand();
+    }
+    sort(numbers);
+    //printArr(arr, 10);
     return 0;
 }
