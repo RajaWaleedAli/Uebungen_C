@@ -20,13 +20,15 @@ int main(){
 double average(void){
     double* data = malloc((10*sizeof(double)));
     int exit=0;
+    int biene=5;
     int i=0;
-    int temp=1;
+    int temp=0;
     double avg=0;
-    while(1){
-        if(i>10*temp){
+    while(biene){
+        if(i%10==0){
             temp = i/10;
-            data=realloc(data, (10*sizeof(double))*temp);
+            data=realloc(data, (i+10)*sizeof(double));
+            printf("Neue Groesse: %d\n", (i+10)*sizeof(double));
         }
         scanf("%lf", &data[i]);
         if(data[i]==-1){
