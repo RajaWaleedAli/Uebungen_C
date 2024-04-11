@@ -38,6 +38,6 @@ double average(void){
         i++;
     }
     avg/=i;
-
+    free(data);
     return avg;
 }
