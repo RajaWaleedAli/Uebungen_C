@@ -16,9 +16,14 @@ typedef struct knoten{
 
 void addKnot(knoten_t **, char *, long long);
 void delKnot(knoten_t *, long long);
-void searchKnot(knoten_t *);
+void searchKnot(knoten_t *, long long);
 void freeList(knoten_t *);
 void printList(knoten_t *);
+int countMember(knoten_t *);
+
+int askMode(void);
+
+
 
 int main(){
     system("cls");
@@ -26,16 +31,38 @@ int main(){
     head=NULL;
     char namen[30];
     long long number_;
-    for(int i=0;i<5;i++){
-        printf("\nGib Name ein! ");
-        scanf("%s", &namen);
-        printf("\nGib number_ ein! ");
-        scanf("%lld", &number_);
-        addKnot(&head, namen, number_);
+    while(1){
+        int mode=askMode();
+        switch (mode){
+            case 1:
+                printf("\nGib Name ein! ");
+                scanf("%s", &namen);
+                printf("\nGib Nummer ein! ");
+                scanf("%lld", &number_);
+                addKnot(&head, namen, number_);
+                break;
+            case 2:
+                printf("\nGib Nummer ein! ");
+                scanf("%lld", &number_);
+                delKnot(head, number_);
+                break;
+            case 3:
+                printf("\nGib Nummer ein! ");
+                scanf("%lld", &number_);
+                searchKnot(head, number_);
+                break;
+            case 4:
+                printList(head);
+                break;
+            case 5:
+                printf("Eintraege im Telefonbuch: %d", countMember(head));
+                break;
+            case 6:
+                freeList(head);
+                return 0;
+        }
     }
-    printList(head);
-    freeList(head);
-    return 0;
+    return -1;
 }
 
 void printList(knoten_t* head){
@@ -76,7 +103,7 @@ void delKnot(knoten_t* head, long long number_){
         return;
     }
     if(head->number==number_){
-        free(head);
+        head=NULL;
         return;
     }
 
@@ -103,4 +130,44 @@ void freeList(knoten_t* head){
         free(head);
         head=temp;
     }
+}
+
+int countMember(knoten_t* head){
+    if(head==NULL){
+        return 0;
+    }
+    if(head->next==NULL){
+        return 1;
+    }
+    knoten_t* temp = head;
+    int count=0;
+    while(temp->next!=NULL){
+        count++;
+        temp=temp->next;
+    }
+    return count;
+}
+
+void searchKnot(knoten_t* head, long long number_){
+    if(head==NULL){
+        printf("Liste ist Leer!\n");
+        return;
+    }
+    knoten_t* searchPtr = head;
+    while(searchPtr->next!=NULL){
+        if(searchPtr->number==number_){
+            printf("Nummer Gefunden!\nName: %s\tNummer:%lld\n", searchPtr->name, searchPtr->number);
+        }
+        searchPtr=searchPtr->next;
+    }
+}
+
+int askMode(void){
+    int mode=0;
+    do{
+        printf("(1) Element hinzufügen!\n(2) Element loeschen!\n(3) Element suchen!\n(4) Elemente ausgeben!\n");
+        printf("(5) Elemente zaelen!\n(6) Beenden\n");
+        scanf("%d", &mode);
+    }while(mode<1 || mode>6);
+    return mode;
 }
