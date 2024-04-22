@@ -14,14 +14,17 @@ typedef struct knoten{
     struct knoten* next;
 }knoten_t;
 
-void addKnot(knoten_t **, char *, long long);
-void delKnot(knoten_t *, long long);
-void searchKnot(knoten_t *, long long);
+void addKnot(knoten_t **, char *, long long number_);
+void delKnot(knoten_t *, long long number_);
+void searchKnot(knoten_t *, long long number_);
 void freeList(knoten_t *);
 void printList(knoten_t *);
+void getFirst(knoten_t *);
+void getLast(knoten_t *);
 int countMember(knoten_t *);
 
 int askMode(void);
+void loop(knoten_t *);
 
 
 
@@ -29,47 +32,18 @@ int main(){
     system("cls");
     knoten_t* head = (knoten_t *) malloc(sizeof(knoten_t));
     head=NULL;
-    char namen[30];
-    long long number_;
-    while(1){
-        int mode=askMode();
-        switch (mode){
-            case 1:
-                printf("\nGib Name ein! ");
-                scanf("%s", &namen);
-                printf("\nGib Nummer ein! ");
-                scanf("%lld", &number_);
-                addKnot(&head, namen, number_);
-                break;
-            case 2:
-                printf("\nGib Nummer ein! ");
-                scanf("%lld", &number_);
-                delKnot(head, number_);
-                break;
-            case 3:
-                printf("\nGib Nummer ein! ");
-                scanf("%lld", &number_);
-                searchKnot(head, number_);
-                break;
-            case 4:
-                printList(head);
-                break;
-            case 5:
-                printf("Eintraege im Telefonbuch: %d", countMember(head));
-                break;
-            case 6:
-                freeList(head);
-                return 0;
-        }
-    }
-    return -1;
+    /*addKnot(&head, "Hello World", 1);
+    addKnot(&head, "Max Mustermann", 2);
+    printList(head);*/
+    loop(head);
+    return 0;
 }
 
 void printList(knoten_t* head){
     knoten_t * current = head;
 
     while (current != NULL) {
-        printf("Name: %s\tnumber_: %lld\n", current->name, current->number);
+        printf("Name: %s\tNummer: %lld\n", current->name, current->number);
         current = current->next;
     }
 }
@@ -161,13 +135,72 @@ void searchKnot(knoten_t* head, long long number_){
         searchPtr=searchPtr->next;
     }
 }
+void getFirst(knoten_t* head){
+    knoten_t* searchPtr = head;
+    searchPtr->next=NULL;
+    printList(searchPtr);
+}
+
+void getLast(knoten_t* head){
+    knoten_t* searchPtr = head;
+    while(searchPtr->next!=NULL){
+        searchPtr=searchPtr->next;
+    }
+    printList(searchPtr);
+}
 
 int askMode(void){
-    int mode=0;
+    int mode = 0;
     do{
-        printf("(1) Element hinzufügen!\n(2) Element loeschen!\n(3) Element suchen!\n(4) Elemente ausgeben!\n");
-        printf("(5) Elemente zaelen!\n(6) Beenden\n");
+        printf("(1) Element hinzufuegen!\n(2) Element loeschen!\n(3) Element suchen!\n(4) Elemente ausgeben!\n");
+        printf("(5) Elemente zaelen!\n(6) Erstes Element Ausgeben\n(7) letztest Element Ausgeben\n(8) Beenden\n");
         scanf("%d", &mode);
-    }while(mode<1 || mode>6);
+    }while(mode<1 || mode>8);
+
     return mode;
+}
+
+void loop(knoten_t* head){
+    char namen[30];
+    long long number_;
+    while(1){
+        int mode = askMode();
+        switch (mode){
+            case 1:
+                printf("\nGib Name ein! ");
+                scanf("%s", &namen);
+                /*fflush(stdin);
+                fgets(namen, 30, stdin);
+                fflush(stdin);*/
+                printf("\nGib Nummer ein! ");
+                scanf("%lld", &number_);
+                addKnot(&head, namen, number_);
+                break;
+            case 2:
+                printf("\nGib Nummer ein! ");
+                scanf("%lld", &number_);
+                delKnot(head, number_);
+                break;
+            case 3:
+                printf("\nGib Nummer ein! ");
+                scanf("%lld", &number_);
+                searchKnot(head, number_);
+                break;
+            case 4:
+                printList(head);
+                break;
+            case 5:
+                printf("Eintraege im Telefonbuch: %d", countMember(head));
+                break;
+            case 6:
+                getFirst(head);
+                break;
+            case 7:
+                getLast(head);
+                break;
+            case 8:
+                freeList(head);
+                return;
+        }
+    }
 }
