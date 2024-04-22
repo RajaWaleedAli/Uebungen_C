@@ -24,11 +24,7 @@ struct person{
 typedef struct person person_t;
 
 void printDaten(person_t fill[], int count){
-    int i;
-    for(i=0;i<count;i++){
-        printf("%d. name: %s %s\n", i, fill[i].vorname, fill[i].nachname);
-    }
-    
+    printf("%d. name: %s %s\n", count, fill[count].vorname, fill[count].nachname);
 }
 
 short semikolon(char line[]){
@@ -41,27 +37,11 @@ short semikolon(char line[]){
 	return count;
 }
 
-int main(){
-    system("cls");
-    FILE* fp;
+void names(person_t personen[], FILE* fp){
     char temp[60];
-    int count=0;
-    char* ptr;
-    int i, j;
+    int j, i=0;
     short load;
-    fp=fopen("celebrity.txt", "r");
-    	if(fp==NULL){
-		printf("Datei Existiert nicht");
-		return -1;
-	}else{
-        while((fgets(temp, sizeof(temp), fp))!=NULL){
-            count++; 
-        }
-    }
-    fclose(fp);
-    person_t personen[count];
-    fp=fopen("celebrity.txt", "r");
-    i=0;
+    char* ptr;
     while((fgets(temp, sizeof(temp), fp))!=NULL){
         load=semikolon(temp);
         ptr=strtok(temp, ";");
@@ -81,8 +61,48 @@ int main(){
         }
         i++;
     }
+}
+int search(person_t personen[], int count){
+    char search_vorname[30];
+    char search_nachname[30];
+    printf("Gib Vorname ein!\n");
+    scanf("%s", &search_vorname);
+    printf("Gib Nachname ein! (falls er keinen hat '/' eingeben)\n");
+    scanf("%s", &search_nachname);
+    while(strstr(personen[count].vorname,search_vorname)==NULL||strstr(personen[count].nachname,search_nachname)==NULL){
+        count--;
+        if(count==-1){
+            return -1;
+        }
+    }
+    return count;
+}
+
+int main(){
+    system("cls");
+    FILE* fp;
+    char temp[60];
+    int count=0;
+    fp=fopen("celebrity.txt", "r");
+    	if(fp==NULL){
+		printf("Datei Existiert nicht");
+		return -1;
+	}else{
+        while((fgets(temp, sizeof(temp), fp))!=NULL){
+            count++; 
+        }
+    }
+    fclose(fp);
+    person_t personen[count];
+    fp=fopen("celebrity.txt", "r");
+    names(personen, fp);
+    while(count>=0){
+        count=search(personen, count);
         printDaten(personen, count);
+        count--;
+    }
     
     fclose(fp);
+
     return 0;
 }
