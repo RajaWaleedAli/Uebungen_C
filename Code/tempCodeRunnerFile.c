@@ -1,1 +1,1 @@
-free(searchPtr);
+temp=searchPtr;

@@ -10,15 +10,15 @@ Beschreibung: BST.
 
 typedef struct knoten{
     int value;
-    struct knoten* greater;
-    struct knoten* small;
+    struct knoten* greater; //rechts
+    struct knoten* small;   //links
 }knoten_t;
 
-void addKnot(knoten_t **, char *, long long number_);
-void delKnot(knoten_t **, long long number_);
-knoten_t* searchKnot(knoten_t *, long long number_);
+void addNode(knoten_t **, int);
+void delNode(knoten_t **, int);
+knoten_t* searchNode(knoten_t *, int);
 void freeList(knoten_t *);
-void printList(knoten_t *);
+void printTree(knoten_t *);
 knoten_t* getFirst(knoten_t *);
 knoten_t* getLast(knoten_t *);
 int countMember(knoten_t *);
@@ -29,24 +29,55 @@ int main(){
     return 0;
 }
 
-void addKnot(knoten_t** root, int value_){
+void addNode(knoten_t** root, int value_){
     knoten_t* searchPtr = *root;
-    knoten_t* new_Knot = (knoten_t *) malloc(sizeof(knoten_t));
-    new_Knot->value = value_;
-    new_Knot->greater = NULL;
-    new_Knot->small = NULL;
-    int i=0;
+    knoten_t* new_node = (knoten_t *) malloc(sizeof(knoten_t));
+    new_node->value = value_;
+    new_node->greater = NULL;
+    new_node->small = NULL;
+
     if(*root==NULL){
-        *root = new_Knot;
+        *root = new_node;
         return;
     }
-    while(searchPtr->greater!=NULL||searchPtr->small!=NULL){
-        if(strcmp(namen, searchPtr->next->name) < 0){
-            new_Knot->next = searchPtr->next;
-            searchPtr->next = new_Knot;
+    while(searchPtr!=NULL){
+        if(searchPtr->value < value_){
+            searchPtr=searchPtr->small;
+        }else if(searchPtr->value >= value_){
+            searchPtr=searchPtr->greater;
+        }
+    }
+    searchPtr=new_node;
+}
+
+void delNode(knoten_t** root, int value_){
+    knoten_t* searchPtr = *root;
+    knoten_t* temp = NULL;
+
+    if(*root==NULL){
+        printf("Liste ist Leer!\n");
+        return;
+    }
+    while(searchPtr!=NULL){
+        if(searchPtr->value==value_){
+            temp->greater=searchPtr->greater;
+            temp->small=searchPtr->small;
+            free(searchPtr);
             return;
         }
-        searchPtr = searchPtr->next;
+        if(searchPtr->value < value_){
+            temp=searchPtr;
+            searchPtr=searchPtr->small;
+        }else if(searchPtr->value >= value_){
+            temp=searchPtr;
+            searchPtr=searchPtr->greater;
+        }
     }
-    searchPtr->next=new_Knot;
+}
+
+void printTree(knoten_t* root){
+    if(root==NULL){
+        return;
+    }
+    printf("Value: %d\n", root->value);
 }
