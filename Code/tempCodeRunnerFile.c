@@ -1,1 +1,1 @@
-temp=searchPtr;
+temp2=*root;

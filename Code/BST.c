@@ -8,14 +8,14 @@ Beschreibung: BST.
 #include<string.h>
 #include<unistd.h>
 #include<time.h>
-
+int count=0;
 typedef struct knoten{
     int value;
     struct knoten* greater; //rechts
     struct knoten* small;   //links
 }knoten_t;
 
-void addNode(knoten_t *, int);
+void addNode(knoten_t **, int);
 void delNode(knoten_t **, int);
 knoten_t* searchNode(knoten_t *, int);
 void freeList(knoten_t *);
@@ -32,80 +32,89 @@ int main(){
     for(int i=0;i<10;i++){
         int x= rand()%1000+1;
         banane[i]=x;
-        addNode(root, x);
+        addNode(&root, x);
         printf("Random Zahl %d = %d\n", i, x);
     }
     printTree(root);
-    delNode(&root, banane[3]);
+    printf("fertig ausgegeben\n\n");
+    delNode(&root, banane[5]);
     printTree(root);
+    printf("fertig ausgegeben\n\n");
 
     return 0;
 }
 
-void addNode(knoten_t* root, int value_){
-    //knoten_t* searchPtr = *root;
-
-    if(root==NULL){
-        knoten_t* new_node = (knoten_t *) malloc(sizeof(knoten_t));
-        new_node->value = value_;
-        new_node->greater = NULL;
-        new_node->small = NULL;
-        root = new_node;
+void addNode(knoten_t** root, int value_){
+    if(*root==NULL){
+        *root = (knoten_t *) malloc(sizeof(knoten_t));
+        (*root)->value = value_;
+        (*root)->greater = NULL;
+        (*root)->small = NULL;
         return;
     }
-    if(root->value<value_){
-        addNode(root->small, value_);
+    if((*root)->value<value_){
+        addNode(&(*root)->small, value_);
     }else{
-        addNode(root->greater, value_);
+        addNode(&(*root)->greater, value_);
     }
-    /*
-    while(searchPtr!=NULL){
-        if(searchPtr->value < value_){
-            searchPtr=searchPtr->small;
-        }else if(searchPtr->value >= value_){  
-            searchPtr=searchPtr->greater;
-        }
-    }
-    searchPtr=new_node;
-    */
 }
 
 void delNode(knoten_t** root, int value_){
-    knoten_t* searchPtr = *root;
     knoten_t* temp = NULL;
     knoten_t* temp2 = NULL;
-
+    knoten_t* first = *root;
     if(*root==NULL){
         printf("Liste ist Leer!\n");
         return;
     }
-    while(searchPtr->small!=NULL||searchPtr->greater!=NULL){
-        if(searchPtr->value==value_){
-            temp->greater=searchPtr->greater;
-            temp->small=searchPtr->small;
-            free(searchPtr);
+    while((*root)->small!=NULL||(*root)->greater!=NULL){
+        if((*root)->value==value_){
+            if((*root)->small==NULL&&(*root)->greater==NULL){
+                temp=*root;
+                free(temp);
+                printf("%d wurde Geloescht!\n", value_);
+                *root=first;
+                return;
+            }
+            temp2=*root;
+            if((*root)->greater!=NULL){
+                temp=(*root)->greater;
+            }else{
+                temp=(*root)->small;
+            }
+            while(temp->small!=NULL){
+                temp2=temp;
+                temp=temp->small;
+            }
+            temp2->small=temp->greater;
+            (*root)->value=temp->value;
+            free(temp);
+            printf("%d wurde Geloescht!\n", value_);
+            *root=first;
             return;
         }
-        if(searchPtr->value < value_){
-            temp=searchPtr;
-            searchPtr=searchPtr->small;
+        if((*root)->value < value_){
+            *root=(*root)->small;
         }else{
-            temp=searchPtr;
-            searchPtr=searchPtr->greater;
+            *root=(*root)->greater;
         }
     }
+    *root=first;
+    printf("Fehler beim Loeschen\n");
 }
 
 void printTree(knoten_t* root){
     printTree_(root, 0);
+    count=0;
 }
 
 void printTree_(knoten_t* root, int level){
     if (root == NULL){
-        printf("fertig ausgegeben\n");
+        //printf("fertig ausgegeben\n");
         return;
     }
-    printf("%d\n", root->value);
+    printf("%d BST Value: %d\n", count, root->value);
+    count++;
     printTree_(root->small, level + 1);
     printTree_(root->greater, level + 1);
 }
